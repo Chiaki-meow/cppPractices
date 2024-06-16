@@ -1,7 +1,10 @@
 // LRU cache in C++
 // hash map + double link list
 // reference: https://hawstein.com/2013/07/23/lru-cache-impl/
-#include <iostream>
+
+#ifndef CPPPRACTICES_LRHCACHE_H
+#define CPPPRACTICES_LRHCACHE_H
+
 #include <vector>
 #include <unordered_map>
 
@@ -58,15 +61,13 @@ public:
             detach(node);
             node->data = data;
             attach(node);
-        }
-        else {
-            if(free_entries.empty()){
+        } else {
+            if (free_entries.empty()) {
                 // cache已满，清除掉最近最少使用的entry
                 node = tail->prev;
                 detach(node);
                 hashmap.erase(node->key);
-            }
-            else{
+            } else {
                 node = free_entries.back();
                 free_entries.pop_back();
             }
@@ -76,29 +77,17 @@ public:
             attach(node);
         }
     }
-    T Get(K key){
+
+    T Get(K key) {
         Node<K, T> *node = hashmap[key];
-        if(node){
+        if (node) {
             detach(node);
             attach(node);
             return node->data;
-        }
-        else{
+        } else {
             return T();
         }
     }
-    };
+};
 
-    int main() {
-        unordered_map<int, int> map;
-        map[9]= 999;
-        cout<<map[9]<<endl;
-        cout<<map[10]<<endl;
-        LRUCache<int, string> lru_cache(100);
-        lru_cache.Put(1, "one");
-        cout<<lru_cache.Get(1)<<endl;
-        if(lru_cache.Get(2) == "")
-            lru_cache.Put(2, "two");
-        cout<<lru_cache.Get(2);
-        return 0;
-    }
+#endif
