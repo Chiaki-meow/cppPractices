@@ -10,14 +10,8 @@
       cppPractices/
       ├── CMakeLists.txt
       ├── README.md
-      ├── LRUCache/      
-      │   ├── CMakeLists.txt
-      │   ├── main.cpp
-      │   ├── LRUCache.h
-      ├── SimpleSTL/
-      │   ├── CMakeLists.txt
-      │   ├── main.cpp
-      │   └── SimpleVector.h
+      ├── LRUCache/ ...
+      └── SimpleSTL/ ...
 
 ## 提交步骤（如果真的有提交的话）
 1.	Fork 这个仓库
