@@ -7,8 +7,7 @@
 
 #include <vector>
 #include <unordered_map>
-
-using namespace std;
+#include <list>
 
 template<class K, class T>
 struct Node {
@@ -20,8 +19,8 @@ struct Node {
 template<class K, class T>
 class LRUCache {
 private:
-    unordered_map<K, Node<K, T> *> hashmap;
-    vector<Node<K, T> *> free_entries;
+    std::unordered_map<K, Node<K, T> *> hashmap;
+    std::vector<Node<K, T> *> free_entries;
     Node<K, T> *head, *tail;
     Node<K, T> *entries;
 private:
@@ -61,6 +60,7 @@ public:
             detach(node);
             node->data = data;
             attach(node);
+
         } else {
             if (free_entries.empty()) {
                 // cache已满，清除掉最近最少使用的entry

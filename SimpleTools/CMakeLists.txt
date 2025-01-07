@@ -1,4 +1,4 @@
-project(SimpleSTL)
+project(SimpleTools)
 
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 

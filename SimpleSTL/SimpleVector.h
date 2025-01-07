@@ -7,6 +7,10 @@
 #ifndef CPPPRACTICES_SIMPLEVECTOR_H
 #define CPPPRACTICES_SIMPLEVECTOR_H
 
+#include <utility>
+#include <cstddef>
+
+
 template<typename T>
 class SimpleVector {
 private:
@@ -36,7 +40,10 @@ public:
         if (size == capacity) {
             size_t newCapacity = capacity * 2;
             T *newData = new T[capacity];
-            memccpy(newData, data, size, sizeof(T));
+            for (int i=0; i<size; i++){
+                newData[i] = std::move(data[i]);
+            }
+            // memccpy(newData, data, size, sizeof(T));
 
             delete[] data;
             data = newData;
