@@ -1,5 +1,7 @@
 #include <iostream>
-#include "SimpleVector.h"
+#include "SimpleSTL/SimpleVector.h"
+#include "SimpleSTL/SimpleString.h"
+#include "TestClass.h"
 
 int main() {
     SimpleVector<int> vec;
