@@ -3,7 +3,15 @@
 #include "SimpleSTL/SimpleString.h"
 #include "TestClass.h"
 
+void vector_int_test();
+
 int main() {
+    vector_int_test();
+
+    return 0;
+}
+
+void vector_int_test(){
     SimpleVector<int> vec;
 
     vec.push_back(1);
@@ -21,6 +29,9 @@ int main() {
 
     vec.clear();
     std::cout << "After clear, Size: " << vec.getSize() << std::endl;
+}
 
-    return 0;
+void vector_test_class_test(){
+    SimpleVector<TestClass> v;
+
 }

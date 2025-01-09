@@ -6,6 +6,25 @@
 #ifndef CPPPRACTICES_TESTCLASS_H
 #define CPPPRACTICES_TESTCLASS_H
 
-// TODO: finish testClass
+class TestClass {
+    int value;
+
+public:
+    TestClass() : value(0) {
+        std::cout<<"Default."<<std::endl;
+    }
+
+    // 拷贝构造函数
+    TestClass(const TestClass &other) {
+        std::cout << "Copy." << std::endl;
+        this->value = other.value;
+    }
+
+    // 移动构造函数
+    TestClass(TestClass &&other) noexcept {
+        std::cout << "Move." << std::endl;
+        this->value = other.value;
+    }
+};
 
 #endif //CPPPRACTICES_TESTCLASS_H
