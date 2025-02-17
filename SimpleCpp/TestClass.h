@@ -8,7 +8,6 @@
 
 class TestClass {
     int value;
-
 public:
     TestClass() : value(0) {
         std::cout<<"Default."<<std::endl;
@@ -25,6 +24,30 @@ public:
         std::cout << "Move." << std::endl;
         this->value = other.value;
     }
+
+    // 拷贝赋值运算符
+    TestClass &operator=(const TestClass &other){
+        if(this != &other){
+            std::cout<<"Copy Assignment."<<std::endl;
+            this->value = other.value;
+        }
+        return *this;
+    }
+
+    // 移动赋值运算符
+    TestClass &operator=(TestClass &&other) noexcept {
+        if(this != &other){
+            std::cout<<"Move Assignment." <<std::endl;
+            this->value = other.value;
+            other.value = 0;
+        }
+        return *this;
+    }
+
+    int getValue() const {
+        return value;
+    }
+
 };
 
 #endif //CPPPRACTICES_TESTCLASS_H

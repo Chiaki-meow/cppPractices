@@ -11,7 +11,7 @@ int main() {
     return 0;
 }
 
-void vector_int_test(){
+void vector_int_test() {
     SimpleVector<int> vec;
 
     vec.push_back(1);
@@ -31,7 +31,23 @@ void vector_int_test(){
     std::cout << "After clear, Size: " << vec.getSize() << std::endl;
 }
 
-void vector_test_class_test(){
-    SimpleVector<TestClass> v;
+void vector_test_class_test() {
+    SimpleVector<TestClass> vec;
+    TestClass test;
+    vec.push_back(TestClass(test));
+    vec.push_back(TestClass(test));
+    vec.push_back(TestClass(test));
+
+    std::cout << "Size: " << vec.getSize() << ", Capacity: " << vec.getCapacity() << std::endl;
+
+    for (size_t i = 0; i < vec.getSize(); ++i) {
+        std::cout << "Element " << i << ": " << vec[i] << std::endl;
+    }
+
+    vec.pop_back();
+    std::cout << "After pop_back, Size: " << vec.getSize() << std::endl;
+
+    vec.clear();
+    std::cout << "After clear, Size: " << vec.getSize() << std::endl;
 
 }
