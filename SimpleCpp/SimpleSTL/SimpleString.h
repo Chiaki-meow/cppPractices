@@ -5,6 +5,6 @@
 #ifndef CPPPRACTICES_SIMPLESTRING_H
 #define CPPPRACTICES_SIMPLESTRING_H
 
-// TODO: finish SimpleSharedPtr
+// TODO: finish SimpleString
 
 #endif //CPPPRACTICES_SIMPLESTRING_H

@@ -4,10 +4,11 @@
 #include "TestClass.h"
 
 void vector_int_test();
+void vector_test_class_test();
 
 int main() {
     vector_int_test();
-
+    vector_test_class_test();
     return 0;
 }
 

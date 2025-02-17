@@ -48,6 +48,10 @@ public:
         return value;
     }
 
+    friend std::ostream & operator <<(std::ostream &os, const TestClass& obj){
+        os << obj.value;
+        return os;
+    }
 };
 
 #endif //CPPPRACTICES_TESTCLASS_H
