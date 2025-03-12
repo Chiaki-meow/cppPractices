@@ -7,4 +7,6 @@
 
 // TODO: finish SimpleString
 
+
+
 #endif //CPPPRACTICES_SIMPLESTRING_H

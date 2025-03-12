@@ -10,7 +10,6 @@
 #include <utility>
 #include <cstddef>
 
-
 template<typename T>
 class SimpleVector {
 private:

@@ -23,7 +23,7 @@
   - [x] Vector
   - [ ] String
 - [ ] C++特性
-  - [ ] Shared_ptr
+  - [x] Shared_ptr
   - [ ] Unique_ptr
   - [ ] 读写锁
 
