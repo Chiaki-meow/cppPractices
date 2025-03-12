@@ -6,6 +6,8 @@
 #ifndef CPPPRACTICES_TESTCLASS_H
 #define CPPPRACTICES_TESTCLASS_H
 
+#include <iostream>
+
 class TestClass {
     int value;
 public:

@@ -5,17 +5,17 @@
 #ifndef CPPPRACTICES_SIMPLESHAREDPTR_H
 #define CPPPRACTICES_SIMPLESHAREDPTR_H
 
+#include <cassert>
 #include <iostream>
 #include <memory>
-#include <cassert>
 
 // TODO: finish SimpleSharedPtr
 
-template<typename T>
-class SmartPtr {
+template <typename T> class SmartPtr {
   T *_ptr;
   size_t *_count;
- public:
+
+public:
   SmartPtr(T *ptr = nullptr) : _ptr(ptr) {
     if (_ptr) {
       _count = new size_t(1);
@@ -40,6 +40,13 @@ class SmartPtr {
       this->_count = other._count;
       (*this->_count)++;
     }
+  }
+
+  SmartPtr(SmartPtr<T> &&other) noexcept {
+    this->_ptr = other._ptr;
+    this->_count = other._count;
+    other._ptr = nullptr;
+    other._count = nullptr;
   }
 
   SmartPtr &operator=(const SmartPtr<T> &other) {
@@ -68,9 +75,7 @@ class SmartPtr {
     return this->_ptr;
   }
 
-  size_t use_count() {
-    return *this->_count;
-  }
+  size_t use_count() { return *this->_count; }
 };
 
-#endif //CPPPRACTICES_SIMPLESHAREDPTR_H
+#endif // CPPPRACTICES_SIMPLESHAREDPTR_H
