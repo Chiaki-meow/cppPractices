@@ -6,10 +6,6 @@
 #define CPPPRACTICES_SIMPLESHAREDPTR_H
 
 #include <cassert>
-#include <iostream>
-#include <memory>
-
-// TODO: finish SimpleSharedPtr
 
 template <typename T> class SmartPtr {
   T *_ptr;
