@@ -1,0 +1,3 @@
+project(SimpleGraphics)
+
+add_subdirectory(RaytracingInOneWeekend)
