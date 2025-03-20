@@ -70,4 +70,57 @@ public:
   }
 };
 
+class ReadLockGuard {
+private:
+  ReadWriteLock &rwLock;
+  bool locked;
+
+public:
+  explicit ReadLockGuard(ReadWriteLock &lock) : rwLock(lock), locked(true) {
+    rwLock.read_lock();
+  }
+  ~ReadLockGuard() {
+    if (locked) {
+      rwLock.read_unlock();
+    }
+  }
+  void unlock() {
+    if (locked) {
+      rwLock.read_unlock();
+      locked = false;
+    }
+  }
+  ReadLockGuard(const ReadLockGuard &) = delete;
+  ReadLockGuard &operator=(const ReadLockGuard &) = delete;
+  ReadLockGuard(ReadLockGuard &&) = delete;
+  ReadLockGuard &operator=(ReadLockGuard &&) = delete;
+};
+
+
+class WriteLockGuard {
+  private:
+    ReadWriteLock &rwLock;
+    bool locked;
+  
+  public:
+    explicit WriteLockGuard(ReadWriteLock &lock) : rwLock(lock), locked(true) {
+      rwLock.write_lock();
+    }
+    ~WriteLockGuard() {
+      if (locked) {
+        rwLock.write_unlock();
+      }
+    }
+    void unlock() {
+      if (locked) {
+        rwLock.write_unlock();
+        locked = false;
+      }
+    }
+    WriteLockGuard(const WriteLockGuard &) = delete;
+    WriteLockGuard &operator=(const WriteLockGuard &) = delete;
+    WriteLockGuard(WriteLockGuard &&) = delete;
+    WriteLockGuard &operator=(WriteLockGuard &&) = delete;
+  };
+
 #endif // CPPPRACTICES_SIMPLEREADWRITELOCK_H
