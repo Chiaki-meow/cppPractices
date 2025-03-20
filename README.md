@@ -24,8 +24,9 @@
   - [ ] String
 - [ ] C++特性
   - [x] Shared_ptr
-  - [ ] Unique_ptr
-  - [ ] 读写锁
+  - [x] 读写锁
+- [ ] Graphics的小demo
+  - [ ] Raytracing in one weekend
 
 ## 提交步骤（如果真的有提交的话）
 1.	Fork 这个仓库
