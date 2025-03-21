@@ -19,6 +19,7 @@ inline double degrees_to_radians(double degrees) { return degrees * pi / 180; }
 
 // Common header
 #include "color.h"
+#include "interval.h"
 #include "ray.h"
 #include "vec3.h"
 
