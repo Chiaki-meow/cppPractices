@@ -6,7 +6,9 @@
 class sphere : public hittable {
 public:
   sphere(const point3 &center, double radius)
-      : center(center), radius(std::fmax(0, radius)) {}
+      : center(center), radius(std::fmax(0, radius)) {
+    // TODO: initialize the material pointer 'mat'
+  }
   bool hit(const ray &r, interval ray_t, hit_record &rec) const override {
     vec3 oc = center - r.origin();
     //   auto a = dot(r.direction(), r.direction());
@@ -21,7 +23,7 @@ public:
       return false;
     }
     auto sqrtd = std::sqrt(discriminant);
-    auto root= (h - sqrtd) / a;
+    auto root = (h - sqrtd) / a;
     if (!ray_t.surrounds(root)) {
       root = (h + sqrtd) / a;
       if (!ray_t.surrounds(root))
@@ -31,12 +33,14 @@ public:
     rec.p = r.at(rec.t);
     vec3 outward_normal = (rec.p - center) / radius;
     rec.set_face_normal(r, outward_normal);
+    rec.mat = mat;
     return true;
   }
 
 private:
   point3 center;
   double radius;
+  shared_ptr<material> mat;
 };
 
 #endif // SPHERE_H

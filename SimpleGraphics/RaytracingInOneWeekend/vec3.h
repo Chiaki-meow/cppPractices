@@ -41,6 +41,12 @@ public:
     return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
   }
 
+  bool near_zero() const {
+    // 在vec3很接近0的时候返回true
+    auto s = 1e-8;
+    return (std::fabs(e[0] < s) && std::fabs(e[1] < s) && std::fabs(e[2] < s));
+  }
+
   double length() const { return std::sqrt(length_squared()); }
 
   static vec3 random() {
@@ -105,7 +111,7 @@ inline vec3 random_on_hemisphere(const vec3 &normal) {
   if (dot(on_unit_sphere, normal) > 0) // 和法线在同一个半球
     return on_unit_sphere;
   else
-   return -on_unit_sphere;
+    return -on_unit_sphere;
 }
 
 #endif // VEC3_H
