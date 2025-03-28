@@ -8,13 +8,16 @@ class camera {
 public:
   double aspect_ratio = 1.0;
   int image_width = 100;
-  int sample_per_pixel = 10;
+  int samples_per_pixel = 10;
   int max_depth = 10;
 
   double vfov = 90; // 垂直fov
   point3 lookfrom = point3(0, 0, 0);
   point3 lookat = point3(0, 0, -1);
   vec3 vup = vec3(0, 1, 0);
+
+  double defocus_angle = 0; // 控制光圈大小
+  double focus_dist = 10;   // 焦距
 
   void render(const hittable &world) {
     initalize();
@@ -24,7 +27,7 @@ public:
                 << std::flush;
       for (int i = 0; i < image_width; i++) {
         color pixel_color(0, 0, 0);
-        for (int sample = 0; sample < sample_per_pixel; sample++) {
+        for (int sample = 0; sample < samples_per_pixel; sample++) {
           ray r = get_ray(i, j);
           pixel_color += ray_color(r, max_depth, world);
         }
@@ -42,32 +45,33 @@ private:
   vec3 pixel_delta_u;
   vec3 pixel_delta_v;
   vec3 u, v, w;
+  vec3 defocus_disk_u;
+  vec3 defocus_disk_v;
 
   void initalize() {
     // Calculate the image height, and ensure that it's at least 1.
     image_height = int(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
 
-    pixel_samples_scale = 1.0 / sample_per_pixel;
+    pixel_samples_scale = 1.0 / samples_per_pixel;
 
     center = lookfrom;
 
     // Camera viewport dimensions
-    auto focal_length = (lookfrom - lookat).length();
     auto theta = degrees_to_radians(vfov);
     auto h = std::tan(theta / 2);
-    auto viewport_height = 2.0 * h * focal_length;
+    auto viewport_height = 2.0 * h * focus_dist;
     auto viewport_width =
         viewport_height * (double(image_width) / image_height);
 
     w = unit_vector(lookfrom - lookat);
-    u = unit_vector(cross(w, vup));
+    u = unit_vector(cross(vup, w));
     v = cross(w, u);
 
     // Calculate the vectors across the horizontal and down the vertical
     // viewport edges.
     auto viewport_u = viewport_width * u;
-    auto viewport_v = viewport_height * v;
+    auto viewport_v = viewport_height * -v;
 
     // Calculate the horizontal and vertical delta vectors from pixel 2 pixel
     pixel_delta_u = viewport_u / image_width;
@@ -75,8 +79,14 @@ private:
 
     // Calculate the location of upper left pixel.
     auto viewport_upper_left =
-        center - focal_length * w - viewport_u / 2 - viewport_v / 2;
+        center - focus_dist * w - viewport_u / 2 - viewport_v / 2;
     pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
+
+    // 计算相机散焦圆盘的基本vec
+    auto defocus_radius =
+        focus_dist * std::tan(degrees_to_radians(defocus_angle / 2));
+    defocus_disk_u = u * defocus_radius;
+    defocus_disk_v = v * defocus_radius;
   }
 
   ray get_ray(int i, int j) const {
@@ -85,14 +95,21 @@ private:
     auto offset = sample_square();
     auto pixel_center = pixel00_loc + ((i + offset.x()) * pixel_delta_u +
                                        (j + offset.y()) * pixel_delta_v);
-    auto ray_direction = pixel_center - center;
-    return ray(center, ray_direction);
+    auto ray_origin = (defocus_angle <= 0) ? center : defocus_disk_sample();
+    auto ray_direction = pixel_center - ray_origin;
+    return ray(ray_origin, ray_direction);
   }
 
   vec3 sample_square() const {
     // Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit
     // square.
     return vec3(random_double() - 0.5, random_double() - 0.5, 0);
+  }
+
+  point3 defocus_disk_sample() const {
+    // 返回散焦盘里任意一个点
+    auto p = random_in_unit_disk();
+    return center + (p[0] * defocus_disk_u) + (p[1] * defocus_disk_v);
   }
 
   color ray_color(const ray &r, int depth, const hittable &world) const {
